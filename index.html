@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>驅動程式安裝大作戰</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    background-color: #f0f2f5;
+    text-align: center;
+  }
+  h1 {
+    color: #333;
+  }
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  button.driver-btn {
+    padding: 20px 30px;
+    font-size: 18px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 200px;
+    background-color: #fff;
+  }
+  button.driver-btn.correct {
+    background-color: #4CAF50;
+    color: #fff;
+    border-color: #4CAF50;
+  }
+  button.driver-btn.wrong {
+    background-color: #f44336;
+    color: #fff;
+    border-color: #f44336;
+  }
+  #message {
+    margin-top: 30px;
+    font-size: 20px;
+    min-height: 40px;
+  }
+  #reset-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>驅動程式安裝大作戰</h1>
+<p>請依序安裝驅動程式：晶片組 → 顯示卡 → 網路卡 → 音效卡</p>
+
+<div class="buttons-container">
+  <button class="driver-btn" data-step="1">晶片組驅動</button>
+  <button class="driver-btn" data-step="2">顯示卡驅動</button>
+  <button class="driver-btn" data-step="3">網路卡驅動</button>
+  <button class="driver-btn" data-step="4">音效卡驅動</button>
+</div>
+
+<div id="message"></div>
+<button id="reset-btn">重新安裝</button>
+
+<script>
+  const buttons = document.querySelectorAll('.driver-btn');
+  const message = document.getElementById('message');
+  let currentStep = 1;
+
+  const stepInfo = {
+    1: "晶片組驅動安裝完成！作業系統能識別主機板，優化電源與傳輸效率。",
+    2: "顯示卡驅動安裝完成！系統能識別顯示卡並發揮完整圖形性能。",
+    3: "網路卡驅動安裝完成！網路連線穩定並優化功能。",
+    4: "音效卡驅動安裝完成！音效輸出穩定，增強音訊處理。"
+  };
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const step = parseInt(btn.getAttribute('data-step'));
+      if(step === currentStep) {
+        btn.classList.add('correct');
+        message.textContent = stepInfo[step];
+        currentStep++;
+        if(currentStep > 4) {
+          message.textContent = "全部驅動程式安裝完成！🎉";
+        }
+      } else {
+        btn.classList.add('wrong');
+        message.textContent = "順序錯誤！請先安裝正確驅動程式。";
+      }
+    });
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    buttons.forEach(btn => {
+      btn.classList.remove('correct', 'wrong');
+    });
+    currentStep = 1;
+    message.textContent = '';
+  });
+</script>
+
+</body>
+</html>
